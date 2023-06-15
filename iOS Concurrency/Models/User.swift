@@ -11,7 +11,7 @@ import Foundation
 
 struct User: Codable, Identifiable {
     let id: Int
-    let name: Int
-    let username: Int
-    let email: Int
+    let name: String
+    let username: String
+    let email: String
 }
