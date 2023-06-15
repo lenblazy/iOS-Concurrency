@@ -10,7 +10,7 @@ import SwiftUI
 struct UsersListView: View {
     
 #if DEBUG
-    @StateObject var vm = UsersListViewModel(forPreview: true, apiService: ApiService(urlString: "https://jsonplaceholder.typicode.com/users"))
+    @StateObject var vm = UsersListViewModel(forPreview: false, apiService: ApiService(urlString: "https://jsonplaceholder.typicode.com/users"))
 #else
     @StateObject var vm = UsersListViewModel(apiService: ApiService(urlString: "https://jsonplaceholder.typicode.com/users"))
 #endif
@@ -31,6 +31,11 @@ struct UsersListView: View {
                     }
                 }
             }
+            .overlay(content: {
+                if vm.isLoading {
+                    ProgressView()
+                }
+            })
             .navigationTitle("Users")
             .listStyle(.plain)
             .onAppear{
