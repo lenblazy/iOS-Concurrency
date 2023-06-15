@@ -44,9 +44,8 @@ struct PostsListView: View {
         .navigationTitle("Posts")
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)
-        .onAppear{
-            
-            vm.fetchPosts()
+        .task{
+            await vm.fetchPosts()
         }
     }
 }
