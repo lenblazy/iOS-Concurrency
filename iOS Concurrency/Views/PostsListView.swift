@@ -34,6 +34,13 @@ struct PostsListView: View {
                 ProgressView()
             }
         })
+        .alert("Application Error", isPresented: $vm.showAlert, actions: {
+            Button("OK") { }
+        }, message: {
+            if let errorMsg = vm.errorMsg{
+                Text(errorMsg)
+            }
+        })
         .navigationTitle("Posts")
         .navigationBarTitleDisplayMode(.inline)
         .listStyle(.plain)

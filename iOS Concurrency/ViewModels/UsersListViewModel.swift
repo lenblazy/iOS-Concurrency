@@ -12,6 +12,8 @@ class UsersListViewModel: ObservableObject {
     
     @Published var users: [User] = []
     @Published var isLoading = false
+    @Published var showAlert = false
+    @Published var errorMsg: String?
     
     private let apiService: ApiService
     
@@ -21,23 +23,25 @@ class UsersListViewModel: ObservableObject {
     
     func fetchUsers()  {
         isLoading.toggle()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.apiService.getJSON { (result: Result<[User], APIError>) in
-                defer{
-                    DispatchQueue.main.async {
-                        self.isLoading.toggle()
-                    }
+        self.apiService.getJSON { (result: Result<[User], APIError>) in
+            defer{
+                DispatchQueue.main.async {
+                    self.isLoading.toggle()
                 }
-                switch result{
-                case .success(let users):
-                    DispatchQueue.main.async {
-                        self.users.append(contentsOf: users)
-                    }
-                case .failure(let error):
-                    print(error)
+            }
+            switch result{
+            case .success(let users):
+                DispatchQueue.main.async {
+                    self.users.append(contentsOf: users)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert.toggle()
+                    self.errorMsg = error.localizedDescription
                 }
             }
         }
+        
         
     }
     

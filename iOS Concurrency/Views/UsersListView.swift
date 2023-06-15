@@ -36,11 +36,16 @@ struct UsersListView: View {
                     ProgressView()
                 }
             })
+            .alert("Application Error", isPresented: $vm.showAlert, actions: {
+                Button("OK") { }
+            }, message: {
+                if let errorMsg = vm.errorMsg{
+                    Text(errorMsg)
+                }
+            })
             .navigationTitle("Users")
             .listStyle(.plain)
             .onAppear{
-                
-                
                 vm.fetchUsers()
             }
         }
